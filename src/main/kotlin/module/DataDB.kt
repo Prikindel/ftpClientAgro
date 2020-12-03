@@ -11,7 +11,7 @@ import java.sql.Date
  * @property date дата сбора данных
  */
 data class Data(
-    val id: Int,
+    val id: Int = 0,
     val coordinates: Int,
     val value: String,
     val date: Date
@@ -21,9 +21,11 @@ data class Data(
  * Данные о координатах для БД
  *
  * @property id ID
- * @property latlng Координаты (lat, lng)
+ * @property lat Координаты lat
+ * @property lng координаты lng
  */
 data class Coordinates(
-    val id: Int,
-    val latlng: String
+    val id: Int = 0,
+    val lat: String,
+    val lng: String
 )

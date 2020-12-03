@@ -1,44 +1,28 @@
 import ftp.FTP
 import parser.ParsingFile
+import presenter.Presenter
 import java.io.File
 import java.util.concurrent.Semaphore
 import kotlin.concurrent.thread
 
-fun main() {
-
-    println("Получение списка файлов на FTP сервере...")
-    var list = listOf<String>()
-    thread(start = true) {
-        list = FTP.getInstance(FTP.Companion.Directory.LAST)
-            .list()
-    }.join()
-
-    println("Получен список файлов: \n ${list.size} файлов \n $list \n")
-
-    println("Скачивание файлов на локальную машину и парсинг с последующей отправкой на сервер данных\n")
-    val semaphore = Semaphore(10)
-    list.forEachIndexed { index, it ->
-        thread(start = true) {
-            semaphore.acquire()
-            println("Скачиваем файл №${index + 1} $it")
-            FTP.getInstance(FTP.Companion.Directory.LAST)
-                .download(it)
-            println("Парсинг файла №${index + 1} $it и отправка данных на сервер")
-            ParsingFile.getInstance("${System.getProperty("user.dir")}/LAST/$it").parser()
-            println("Удаление файла №${index + 1} $it с локальной машины")
-            File("${System.getProperty("user.dir")}/LAST/$it").delete()
-            semaphore.release()
+fun main(args: Array<String>) {
+    println("Вас приветствует программа парсинга данных с FTP сервера \"Фобос\"")
+    println()
+    while (true) {
+        print("Введите количество желаемых одновременно работающих потоков: ")
+        val flowSize = readLine()
+        if (flowSize.isNullOrEmpty()) {
+            println("ERROR. Необходимо ввести количество потоков")
+        } else if (flowSize.all { it.isDigit() }) {
+            var flowInt = flowSize.toInt()
+            if (flowInt <= 0) {
+                flowInt = 1
+            }
+            val presenter = Presenter.getInstance(flow = flowInt)
+            presenter.listParsing(presenter.getList())
+            break
+        } else {
+            println("ERROR. Введите число")
         }
     }
-
-    //println("\nКонец работы программы")
-
-    /*list.forEach {
-        thread(start = true) {
-            semaphore.acquire()
-            ParsingFile.getInstance("${System.getProperty("user.dir")}/LAST/$it").parser()
-            File("${System.getProperty("user.dir")}/LAST/$it").delete()
-            semaphore.release()
-        }
-    }*/
 }

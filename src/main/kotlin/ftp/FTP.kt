@@ -13,6 +13,11 @@ class FTP {
      */
     private lateinit var ftpClient: FTPClient
 
+    /**
+     * Директория, куда загружаются файлы
+     */
+    var DOWNLOAD_DIRECTORY = "${System.getProperty("user.dir")}/LAST/"
+
     companion object {
         /**
          * К какой директории идет подключение
@@ -39,11 +44,6 @@ class FTP {
         }
 
         /**
-         * Директория, куда загружаются файлы
-         */
-        var DOWNLOAD_DIRECTORY = "${System.getProperty("user.dir")}/LAST/"
-
-        /**
          * Метод генератор - генерирует объект класса [FTP] с параметрами сервера FTP, записанными в [FtpConfig]
          *
          * @param directory Дирректория подключения
@@ -55,14 +55,21 @@ class FTP {
                 it.connect(FtpConfig.HOST, FtpConfig.PORT)
                 it.login(FtpConfig.USER, FtpConfig.PASSWORD)
                 it.type = FTPClient.TYPE_BINARY
-                it.changeDirectory(
-                    when (directory) {
-                        Directory.LAST -> FtpConfig.DIRECTORYLAST
-                        Directory.AGO1 -> FtpConfig.DIRECTORYAGO1
-                        Directory.AGO2 -> FtpConfig.DIRECTORYAGO2
-                    }
-                )
+                it.changeDirectory(getDirectory(directory))
+                DOWNLOAD_DIRECTORY = System.getProperty("user.dir") + getDirectory(directory)
             }
+        }
+
+        /**
+         * Возвращает путь директории
+         *
+         * @param directory
+         * @return путь
+         */
+        private fun getDirectory(directory: Directory) = when (directory) {
+            Directory.LAST -> FtpConfig.DIRECTORYLAST
+            Directory.AGO1 -> FtpConfig.DIRECTORYAGO1
+            Directory.AGO2 -> FtpConfig.DIRECTORYAGO2
         }
     }
 
