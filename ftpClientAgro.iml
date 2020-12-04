@@ -12,17 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../ftp4j-1.7.2" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="file://$MODULE_DIR$/../ftp4j-1.7.2/doc/api" />
-        </JAVADOC>
-        <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/../ftp4j-1.7.2" recursive="false" />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="com.zaxxer:HikariCP:3.4.5" level="project" />
+    <orderEntry type="library" name="libs" level="project" />
   </component>
 </module>
