@@ -7,7 +7,7 @@ import java.util.concurrent.Semaphore
 import kotlin.concurrent.thread
 
 fun main(args: Array<String>) {
-    /*println("Вас приветствует программа парсинга данных с FTP сервера \"Фобос\"")
+    println("Вас приветствует программа парсинга данных с FTP сервера \"Фобос\"")
     println()
     while (true) {
         print("Введите количество желаемых одновременно работающих потоков: ")
@@ -25,6 +25,5 @@ fun main(args: Array<String>) {
         } else {
             println("ERROR. Введите число")
         }
-    }*/
-    DB().test()
+    }
 }

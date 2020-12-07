@@ -52,13 +52,13 @@ class FileConfig {
          * Температура
          *
          */
-        TMP("TMP"),
+        TMP("TMP surface"),
 
         /**
          * Скорость ветра
          *
          */
-        WIND("GUST"),
+        WIND("GUST surface"),
 
         /**
          * Температура почвы
@@ -70,12 +70,13 @@ class FileConfig {
          * Влажность воздуха
          *
          */
-        HUM("RH"),
+        HUM("RH entire atmosphere"),
 
         /**
          * Начало каждого нового разделения данных
          *
          */
-        LON("lon")
+        LON("lon"),
+        LAT("lat")
     }
 }

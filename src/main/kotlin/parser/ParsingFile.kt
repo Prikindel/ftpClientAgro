@@ -1,9 +1,8 @@
 package parser
 
-import module.Rest
+import module.DB
+import module.DBConfig
 import java.io.File
-import java.lang.Exception
-import kotlin.concurrent.thread
 
 /**
  * Парсер указанного файла
@@ -31,7 +30,9 @@ class ParsingFile {
      * @param printFlag выводить ли информацию о данных на экран. По умолчанию false
      */
     fun parser(typeData: FileConfig.TypeData = FileConfig.TypeData.ALL, printFlag: Boolean = false) {
+        val db = DB.getInstance()
         if (FileConfig.isTypeData(typeData)) {
+            //val db = DB.getInstance()
             var flagParsing = false
             // Дата для данных файла
             val fileDate = file.name
@@ -44,6 +45,10 @@ class ParsingFile {
                                 "-" +
                                 "${it[6]}${it[7]}"
                     }
+
+            /*var sql = ""
+            val limit = 500
+            var index = 0*/
 
             file.forEachLine {
                 // Проверка на конец типа данных
@@ -59,31 +64,38 @@ class ParsingFile {
                             .substringAfter(',')
                             .substringBefore(',')
 
+                    /*sql += DB.getSqlAddCD(DBConfig.dataToSetDataFtp(
+                            typoDataToRestTable()!!,
+                            lat,
+                            lng,
+                            value,
+                            fileDate
+                    ))
+                    index++*/
+
                     // Передача на сервер
-                    try {
-                        Rest().setDataFtp(
-                                Rest.dataToSetDataFtp(
-                                        typoDataToRestTable()!!,
-                                        lat,
-                                        lng,
-                                        value,
-                                        fileDate
-                                ),
-                                printFlag
-                        )
-                    } catch (e: Exception) {
-                        Thread.sleep(2*60*1000)
-                        Rest().setDataFtp(
-                                Rest.dataToSetDataFtp(
-                                        typoDataToRestTable()!!,
-                                        lat,
-                                        lng,
-                                        value,
-                                        fileDate
-                                ),
-                                printFlag
-                        )
-                    }
+                    //if (index == limit) {
+                        try {
+                            //toDB(db, sql)
+                            if (db.addCoordinateData(
+                                            DBConfig.dataToSetDataFtp(
+                                                    typoDataToRestTable()!!,
+                                                    lat,
+                                                    lng,
+                                                    value,
+                                                    fileDate
+                                            )
+                                    )
+                                    && printFlag
+                            )
+                                println("${file.name} - data type is ${typeParsingData?.name}: lat = $lat; lng = $lng; value = $value; date = $fileDate;")
+                            //db.disconnect()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                        //index = 0
+                        //sql = ""
+                    //}
                 }
                 // проверка типа нижележащих данных
                 if (!flagParsing) {
@@ -97,14 +109,26 @@ class ParsingFile {
                         }
                     }
                     if (typeParsingData != null) {
-                        println("${typeParsingData?.type} type parsing")
+                        println("${file.name} - ${typeParsingData?.name} type parsing")
                     }
                 }
             }
+            /*if (index != 0) {
+                try {
+                    toDB(db, sql)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                index = 0
+                sql = ""
+            }*/
         } else {
             println("Неверно переданный тип данных: ${typeData.name}")
         }
+        db.disconnect()
     }
+
+    private fun toDB(db: DB, sql: String) = db.addCoordinateDataSql(sql)
 
     /**
      * Парсит строку на тип нижележащих данных в файле
@@ -127,10 +151,10 @@ class ParsingFile {
      * @return
      */
     private fun typoDataToRestTable() = when (typeParsingData) {
-        FileConfig.TypeData.TMP     -> Rest.Companion.Table.TMP
-        FileConfig.TypeData.HUM     -> Rest.Companion.Table.HUM
-        FileConfig.TypeData.SOILTMP -> Rest.Companion.Table.SOILTMP
-        FileConfig.TypeData.WIND    -> Rest.Companion.Table.WIND
+        FileConfig.TypeData.TMP     -> DBConfig.Companion.Table.TMP
+        FileConfig.TypeData.HUM     -> DBConfig.Companion.Table.HUM
+        FileConfig.TypeData.SOILTMP -> DBConfig.Companion.Table.SOILTMP
+        FileConfig.TypeData.WIND    -> DBConfig.Companion.Table.WIND
         else                        -> null
     }
 }
