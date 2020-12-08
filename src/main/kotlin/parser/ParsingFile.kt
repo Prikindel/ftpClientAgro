@@ -36,14 +36,16 @@ class ParsingFile {
             var flagParsing = false
             // Дата для данных файла
             val fileDate = file.name
-                    .substringBeforeLast('-')
+                    .substringBeforeLast('.')
                     .filter { it.isDigit() }
                     .let {
                         "${it[0]}${it[1]}${it[2]}${it[3]}" +
                                 "-" +
                                 "${it[4]}${it[5]}" +
                                 "-" +
-                                "${it[6]}${it[7]}"
+                                "${it[6]}${it[7]}" +
+                                " " +
+                                "${it[8]}${it[9]}:00:00"
                     }
 
             /*var sql = ""
