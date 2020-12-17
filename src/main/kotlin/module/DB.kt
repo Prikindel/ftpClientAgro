@@ -1,5 +1,8 @@
 package module
 
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStreamReader
 import java.lang.Exception
 import java.sql.Connection
 import java.sql.DriverManager
@@ -9,7 +12,7 @@ import java.sql.Statement
 
 class DB {
     //private val URL = "jdbc:mysql://a279779.mysql.mchost.ru/a279779_stomax"
-    private val URL = "jdbc:mysql://${DBConfig.Companion.Test.HOST.value}/${DBConfig.Companion.Test.DATABASE.value}"//?allowMultiQueries=true"
+    private val URL = "jdbc:mysql://${DBConfig.Companion.DBParams.HOST.value}/${DBConfig.Companion.DBParams.DATABASE.value}"//?allowMultiQueries=true"
     private lateinit var connection: Connection
     private lateinit var stmt: Statement
 
@@ -20,9 +23,10 @@ class DB {
          */
         fun getInstance() = DB().apply {
             try {
+                Class.forName("com.mysql.jdbc.Driver")
                 connection = DriverManager.getConnection(URL,
-                        DBConfig.Companion.Test.USER.value,
-                        DBConfig.Companion.Test.PASSWORD.value
+                        DBConfig.Companion.DBParams.USER.value,
+                        DBConfig.Companion.DBParams.PASSWORD.value
                 )
                 stmt = connection.createStatement()
             } catch (e: Exception) {
@@ -37,6 +41,9 @@ class DB {
                 "'${params["date"]}', " +
                 "'${params["table"]}'" +
                 ");"
+
+        fun getSqlAdd(params: Map<String, String>) = "INSERT INTO coordinates (lat, lng) VALUES('${params["lat"]}', '${params["lng"]}') ON duplicate KEY UPDATE id = last_insert_id(id);" +
+                "INSERT INTO ${params["table"]} (coordinates, value, date) VALUES(last_insert_id(), '${params["value"]}', '${params["date"]}') ON duplicate KEY UPDATE value = '${params["value"]}';"
     }
 
     /**
@@ -108,7 +115,8 @@ class DB {
         if (!flagError) {
             try {
                 //val stmt = connection.createStatement()
-                flagReturn = stmt.execute(sql)
+                //flagReturn = stmt.execute(sql)
+                connection.prepareStatement(sql).execute()
                 //stmt.close()
             } catch (e: SQLException) {
                 e.printStackTrace()
@@ -116,5 +124,25 @@ class DB {
             }
         }
         return flagReturn
+    }
+
+    fun toDbByFile(file: String) {
+        try {
+            var line: String?
+            /*val r = Runtime.getRuntime()
+            r.exec(arrayOf("bash", "-l", "-c", "mysql -u ${DBConfig.Companion.DBParams.USER.value} -p ${DBConfig.Companion.DBParams.DATABASE.value} < $file"), null)
+            val p2 = r.exec(arrayOf("bash", "-l", "-c", "${DBConfig.Companion.DBParams.PASSWORD.value}\n"), null)
+            val input = BufferedReader(InputStreamReader(p2.inputStream))*/
+
+            val p = Runtime.getRuntime().exec(arrayOf("bash", "-l", "-c", "mysql ${DBConfig.Companion.DBParams.DATABASE.value} < $file"), null)
+            val input = BufferedReader(InputStreamReader(p.inputStream))
+            while (input.readLine().also { line = it } != null) {
+                println(line)
+            }
+            input.close()
+            File(file).delete()
+        } catch (err: Exception) {
+            err.printStackTrace()
+        }
     }
 }

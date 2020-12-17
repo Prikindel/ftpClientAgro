@@ -59,7 +59,7 @@ class Presenter {
         thread(start = true) {
             list = ftp.list()
         }.join()
-        println("Получен список файлов: \n ${list.size} файлов \n $list \n")
+        println("Получен список файлов: \n ${list.size} файлов \n")
         return list
     }
 
@@ -71,16 +71,18 @@ class Presenter {
     fun listParsing(list: List<String>) {
         println("Скачивание файлов на локальную машину и парсинг с последующей отправкой на сервер данных\n")
         list.forEachIndexed { index, it ->
-            thread(start = true) {
-                semaphore.acquire()
-                println("Скачивание файла №${index + 1} $it")
-                ftp.download(it)
-                println("Парсинг файла №${index + 1} $it и отправка данных на сервер")
-                ParsingFile.getInstance("${ftp.DOWNLOAD_DIRECTORY}$it").parser()
-                println("Удаление файла №${index + 1} $it с локальной машины")
-                File("${System.getProperty("user.dir")}/LAST/$it").delete()
-                semaphore.release()
-            }
+            //if (index == 0) {
+                thread(start = true) {
+                    semaphore.acquire()
+                    println("Скачивание файла №${index + 1} $it")
+                    ftp.download(it)
+                    println("Парсинг файла №${index + 1} $it и отправка данных на сервер")
+                    ParsingFile.getInstance("${ftp.DOWNLOAD_DIRECTORY}$it").parser()
+                    println("Удаление файла №${index + 1} $it с локальной машины")
+                    File("${System.getProperty("user.dir")}/LAST/$it").delete()
+                    semaphore.release()
+                }
+            //}
         }
     }
 }

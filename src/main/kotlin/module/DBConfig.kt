@@ -14,7 +14,7 @@ class DBConfig {
             PASSWORD("usbw")
         }
 
-        enum class BDParams(val value: String) {
+        enum class DBParams(val value: String) {
             HOST("localhost"),
             DATABASE("agro"),
             USER("prike"),
@@ -45,10 +45,28 @@ class DBConfig {
             HUM,
 
             /**
-             * soil temperature
+             * soil temperature 0 - 0.1 m
              *
              */
-            SOILTMP
+            SOILTMP,
+
+            /**
+             * soil temperature 0.1 - 0.4 m
+             *
+             */
+            SOILTMP1,
+
+            /**
+             * soil temperature 0.4 - 1 m
+             *
+             */
+            SOILTMP2,
+
+            /**
+             * soil temperature 1 - 2 m
+             *
+             */
+            SOILTMP3
         }
 
         /**
@@ -66,6 +84,9 @@ class DBConfig {
                 Table.WIND      -> "wind"
                 Table.HUM       -> "humidity"
                 Table.SOILTMP   -> "soiltemp"
+                Table.SOILTMP1  -> "soiltemp1"
+                Table.SOILTMP2  -> "soiltemp2"
+                Table.SOILTMP3  -> "soiltemp3"
             })
             put("lat", lat)
             put("lng", lng)
