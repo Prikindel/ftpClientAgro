@@ -55,7 +55,7 @@ class FileConfig {
          * Температура
          *
          */
-        TMP("TMP surface"),
+        TMP(",TMP 2 m above"),
 
         /**
          * Скорость ветра
