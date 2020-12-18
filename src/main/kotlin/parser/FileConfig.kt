@@ -91,7 +91,7 @@ class FileConfig {
          * Влажность воздуха
          *
          */
-        HUM("RH entire atmosphere"),
+        HUM("RH 2 m above"),
 
         /**
          * Начало каждого нового разделения данных
