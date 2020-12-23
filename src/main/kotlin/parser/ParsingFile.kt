@@ -173,7 +173,7 @@ class ParsingFile {
         str.contains(FileConfig.TypeData.SOILTMP.type)  -> FileConfig.TypeData.SOILTMP
         str.contains(FileConfig.TypeData.SOILTMP1.type) -> FileConfig.TypeData.SOILTMP1
         str.contains(FileConfig.TypeData.SOILTMP2.type) -> FileConfig.TypeData.SOILTMP2
-        str.contains(FileConfig.TypeData.SOILTMP3.type) -> FileConfig.TypeData.SOILTMP3
+        //str.contains(FileConfig.TypeData.SOILTMP3.type) -> FileConfig.TypeData.SOILTMP3
         str.contains(FileConfig.TypeData.HUM.type)      -> FileConfig.TypeData.HUM
         else                                            -> null
     }
