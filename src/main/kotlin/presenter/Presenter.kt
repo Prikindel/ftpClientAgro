@@ -1,6 +1,7 @@
 package presenter
 
 import ftp.FTP
+import parser.FileConfig
 import parser.ParsingFile
 import java.io.File
 import java.util.concurrent.Semaphore
@@ -71,7 +72,7 @@ class Presenter {
     fun listParsing(list: List<String>) {
         println("Скачивание файлов на локальную машину и парсинг с последующей отправкой на сервер данных\n")
         list.forEachIndexed { index, it ->
-            //if (index == 0) {
+            //if (it.contains("wind-data20201225-17.txt")) {
                 thread(start = true) {
                     semaphore.acquire()
                     println("Скачивание файла №${index + 1} $it")

@@ -55,6 +55,13 @@ class ParsingFile {
             /*var sql = ""
             val limit = 500
             var index = 0*/
+
+
+            val minLat = "40.00000"
+            val maxLat = "70.00000"
+            val minLng = "25.00000"
+            val maxLng = "71.00000"
+
             val fileOut = File("${System.getProperty("user.dir")}/FILES/${file.name}")
             fileOut.createNewFile()
             fileOut.printWriter().use { out ->
@@ -95,17 +102,19 @@ class ParsingFile {
                                     )
                                 )
                             )*/
-                            out.println(
-                                DB.getSqlAdd(
-                                    DBConfig.dataToSetDataFtp(
-                                        typoDataToRestTable()!!,
-                                        lat,
-                                        lng,
-                                        value,
-                                        fileDate
+                                if (lat in minLat..maxLat && lng in minLng..maxLng) {
+                                    out.println(
+                                        DB.getSqlAdd(
+                                            DBConfig.dataToSetDataFtp(
+                                                typoDataToRestTable()!!,
+                                                lat,
+                                                lng,
+                                                value,
+                                                fileDate
+                                            )
+                                        )
                                     )
-                                )
-                            )
+                                }
                             /*if (db.addCoordinateData(
                                             DBConfig.dataToSetDataFtp(
                                                     typoDataToRestTable()!!,

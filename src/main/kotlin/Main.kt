@@ -11,7 +11,6 @@ import java.io.BufferedReader
 
 
 
-
 fun main(args: Array<String>) {
     println("Вас приветствует программа парсинга данных с FTP сервера \"Фобос\"")
     println()
