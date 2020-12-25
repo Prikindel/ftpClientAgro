@@ -19,6 +19,7 @@ class FileConfig {
             TypeData.SOILTMP2   -> true
             TypeData.SOILTMP3   -> true
             TypeData.WIND       -> true
+            TypeData.WDIR       -> true
             TypeData.ALL        -> true
             else                -> false
         }
@@ -61,7 +62,13 @@ class FileConfig {
          * Скорость ветра
          *
          */
-        WIND("GUST surface"),
+        WIND("WIND 10 m"),
+
+        /**
+         * Направление ветра
+         *
+         */
+        WDIR("WDIR 10 m"),
 
         /**
          * Температура почвы на глубине 0-0.1 м

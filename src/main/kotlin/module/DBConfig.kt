@@ -39,6 +39,12 @@ class DBConfig {
             WIND,
 
             /**
+             * wdir
+             *
+             */
+            WDIR,
+
+            /**
              * humidity
              *
              */
@@ -82,6 +88,7 @@ class DBConfig {
             put("table", when(table) {
                 Table.TMP       -> "temperature"
                 Table.WIND      -> "wind"
+                Table.WDIR      -> "wdir"
                 Table.HUM       -> "humidity"
                 Table.SOILTMP   -> "soiltemp"
                 Table.SOILTMP1  -> "soiltemp1"

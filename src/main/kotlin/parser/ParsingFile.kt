@@ -173,7 +173,7 @@ class ParsingFile {
         str.contains(FileConfig.TypeData.SOILTMP.type)  -> FileConfig.TypeData.SOILTMP
         str.contains(FileConfig.TypeData.SOILTMP1.type) -> FileConfig.TypeData.SOILTMP1
         str.contains(FileConfig.TypeData.SOILTMP2.type) -> FileConfig.TypeData.SOILTMP2
-        //str.contains(FileConfig.TypeData.SOILTMP3.type) -> FileConfig.TypeData.SOILTMP3
+        str.contains(FileConfig.TypeData.WDIR.type)     -> FileConfig.TypeData.WDIR
         str.contains(FileConfig.TypeData.HUM.type)      -> FileConfig.TypeData.HUM
         else                                            -> null
     }
@@ -190,7 +190,7 @@ class ParsingFile {
         FileConfig.TypeData.SOILTMP     -> DBConfig.Companion.Table.SOILTMP
         FileConfig.TypeData.SOILTMP1    -> DBConfig.Companion.Table.SOILTMP1
         FileConfig.TypeData.SOILTMP2    -> DBConfig.Companion.Table.SOILTMP2
-        FileConfig.TypeData.SOILTMP3    -> DBConfig.Companion.Table.SOILTMP3
+        FileConfig.TypeData.WDIR        -> DBConfig.Companion.Table.WDIR
         FileConfig.TypeData.WIND        -> DBConfig.Companion.Table.WIND
         else                            -> null
     }
