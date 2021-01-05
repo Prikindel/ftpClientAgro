@@ -1,5 +1,6 @@
 package ftp
 
+import currentDir
 import it.sauronsoftware.ftp4j.FTPClient
 import java.io.File
 
@@ -16,7 +17,7 @@ class FTP {
     /**
      * Директория, куда загружаются файлы
      */
-    var DOWNLOAD_DIRECTORY = "${System.getProperty("java.class.path")}/LAST/"
+    var DOWNLOAD_DIRECTORY = "${currentDir()}/LAST/"
 
     companion object {
         /**
@@ -56,7 +57,7 @@ class FTP {
                 it.login(FtpConfig.USER, FtpConfig.PASSWORD)
                 it.type = FTPClient.TYPE_BINARY
                 it.changeDirectory(getDirectory(directory))
-                DOWNLOAD_DIRECTORY = System.getProperty("java.class.path") + getDirectory(directory)
+                DOWNLOAD_DIRECTORY = currentDir() + getDirectory(directory)
             }
         }
 

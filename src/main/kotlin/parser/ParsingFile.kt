@@ -1,5 +1,6 @@
 package parser
 
+import currentDir
 import module.DB
 import module.DBConfig
 import java.io.File
@@ -20,7 +21,7 @@ class ParsingFile {
          */
         fun getInstance(filePath: String) = ParsingFile().apply {
             file = File(filePath)
-            val folder = File("${System.getProperty("java.class.path")}/FILES/")
+            val folder = File("${currentDir()}/FILES/")
             if (!folder.exists()) {
                 folder.mkdir()
             }
@@ -62,7 +63,7 @@ class ParsingFile {
             val minLng = "25.00000"
             val maxLng = "71.00000"
 
-            val fileOut = File("${System.getProperty("java.class.path")}/FILES/${file.name}")
+            val fileOut = File("${currentDir()}/FILES/${file.name}")
             fileOut.createNewFile()
             fileOut.printWriter().use { out ->
             file.forEachLine {
@@ -152,7 +153,7 @@ class ParsingFile {
                 }
             }
             }
-            db.toDbByFile("${System.getProperty("java.class.path")}/FILES/${file.name}")
+            db.toDbByFile("${currentDir()}/FILES/${file.name}")
             /*if (index != 0) {
                 try {
                     toDB(db, sql)

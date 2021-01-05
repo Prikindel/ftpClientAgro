@@ -1,5 +1,6 @@
 package presenter
 
+import currentDir
 import ftp.FTP
 import parser.FileConfig
 import parser.ParsingFile
@@ -80,7 +81,7 @@ class Presenter {
                     println("Парсинг файла №${index + 1} $it и отправка данных на сервер")
                     ParsingFile.getInstance("${ftp.DOWNLOAD_DIRECTORY}$it").parser()
                     println("Удаление файла №${index + 1} $it с локальной машины")
-                    File("${System.getProperty("java.class.path")}/LAST/$it").delete()
+                    File("${currentDir()}/LAST/$it").delete()
                     semaphore.release()
                 }
             //}
