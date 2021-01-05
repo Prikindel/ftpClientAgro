@@ -12,7 +12,7 @@ import java.io.BufferedReader
 
 
 fun main(args: Array<String>) {
-    println("Вас приветствует программа парсинга данных с FTP сервера \"Фобос\"")
+    /*println("Вас приветствует программа парсинга данных с FTP сервера \"Фобос\"")
     println()
     if (args.isNotEmpty() && args[0].all {it.isDigit()}) {
         var flowInt = args[0].toInt()
@@ -43,5 +43,5 @@ fun main(args: Array<String>) {
                 println("ERROR. Введите число")
             }
         }
-    }
+    }*/
 }

@@ -16,7 +16,7 @@ class FTP {
     /**
      * Директория, куда загружаются файлы
      */
-    var DOWNLOAD_DIRECTORY = "${System.getProperty("user.dir")}/LAST/"
+    var DOWNLOAD_DIRECTORY = "${System.getProperty("java.class.path")}/LAST/"
 
     companion object {
         /**
@@ -56,7 +56,7 @@ class FTP {
                 it.login(FtpConfig.USER, FtpConfig.PASSWORD)
                 it.type = FTPClient.TYPE_BINARY
                 it.changeDirectory(getDirectory(directory))
-                DOWNLOAD_DIRECTORY = System.getProperty("user.dir") + getDirectory(directory)
+                DOWNLOAD_DIRECTORY = System.getProperty("java.class.path") + getDirectory(directory)
             }
         }
 
