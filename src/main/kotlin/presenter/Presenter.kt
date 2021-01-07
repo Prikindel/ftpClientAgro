@@ -2,7 +2,6 @@ package presenter
 
 import currentDir
 import ftp.FTP
-import parser.FileConfig
 import parser.ParsingFile
 import java.io.File
 import java.util.concurrent.Semaphore

@@ -8,7 +8,9 @@ import kotlin.concurrent.thread
 import java.io.InputStreamReader
 
 import java.io.BufferedReader
-
+import java.lang.Exception
+import java.util.*
+import kotlin.system.exitProcess
 
 
 fun main(args: Array<String>) {
@@ -44,4 +46,21 @@ fun main(args: Array<String>) {
             }
         }
     }*/
+
+    val prop = Properties()
+    /*try {
+        prop.put("TEST", listOf(1, 2, 3, 4, 5).toString())
+        prop.store(File("${currentDir()}/t.txt").printWriter(), null)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    } finally {
+    }*/
+    try {
+        prop.load(File("${currentDir()}/t.txt").reader())
+        println(prop.stringPropertyNames())
+        println(prop.propertyNames().toList().get(1))
+    } catch (e: Exception) {
+        e.printStackTrace()
+    } finally {
+    }
 }
