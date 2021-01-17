@@ -1,16 +1,4 @@
-import ftp.FTP
-import module.DB
-import parser.ParsingFile
-import presenter.Presenter
-import java.io.File
-import java.util.concurrent.Semaphore
-import kotlin.concurrent.thread
-import java.io.InputStreamReader
-
-import java.io.BufferedReader
-import java.lang.Exception
-import java.util.*
-import kotlin.system.exitProcess
+import property.Property
 
 
 fun main(args: Array<String>) {
@@ -47,7 +35,7 @@ fun main(args: Array<String>) {
         }
     }*/
 
-    val prop = Properties()
+    //val prop = Properties()
     /*try {
         prop.put("TEST", listOf(1, 2, 3, 4, 5).toString())
         prop.store(File("${currentDir()}/t.txt").printWriter(), null)
@@ -55,12 +43,21 @@ fun main(args: Array<String>) {
         e.printStackTrace()
     } finally {
     }*/
-    try {
+    /*try {
         prop.load(File("${currentDir()}/t.txt").reader())
         println(prop.stringPropertyNames())
-        println(prop.propertyNames().toList().get(1))
+        println(prop.propertyNames().toList().get(0))
+        println(prop.getProperty("TEST", "[]").drop(1).dropLast(1).split(", ").get(0))
     } catch (e: Exception) {
         e.printStackTrace()
     } finally {
-    }
+    }*/
+
+    Property.initDefaultFile().loadProperties()
+    val list = Property.getTypesData()
+    println(list)
+    println(list[0])
+    println(Property.getFileNameByTypeData(list[0]))
+    println(Property.getTableByTypeData(list[0]))
+    println(Property.getSearchByTypeData(list[0]))
 }
