@@ -72,7 +72,7 @@ class Presenter {
     fun listParsing(list: List<String>) {
         println("Скачивание файлов на локальную машину и парсинг с последующей отправкой на сервер данных\n")
         list.forEachIndexed { index, it ->
-            //if (it.contains("wind-data20201225-17.txt")) {
+            //if (it.contains("osadki")) {
                 thread(start = true) {
                     semaphore.acquire()
                     println("Скачивание файла №${index + 1} $it")

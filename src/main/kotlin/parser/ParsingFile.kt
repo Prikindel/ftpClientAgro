@@ -28,6 +28,14 @@ class ParsingFile {
         }
     }
 
+    fun getTypeFile() = when {
+        file.name.contains(FileConfig.FileName.GRIB.file)   -> FileConfig.FileName.GRIB
+        file.name.contains(FileConfig.FileName.OSADKI.file) -> FileConfig.FileName.OSADKI
+        file.name.contains(FileConfig.FileName.WDIR.file)   -> FileConfig.FileName.WDIR
+        file.name.contains(FileConfig.FileName.WIND.file)   -> FileConfig.FileName.WIND
+        else                                                -> null
+    }
+
     /**
      * Парсинг файла на данные и передача их на сервер
      *
@@ -142,7 +150,10 @@ class ParsingFile {
                         typeParsingData = parserStringByType(it)
                         if (typeParsingData != null) flagParsing = true
                     } else {
-                        if (it.contains(typeData.type)) {
+                        if (typeData != FileConfig.TypeData.OSADKI && it.contains(typeData.type)) {
+                            flagParsing = true
+                            typeParsingData = typeData
+                        } else if (getTypeFile() == FileConfig.FileName.OSADKI && typeData == FileConfig.TypeData.OSADKI) {
                             flagParsing = true
                             typeParsingData = typeData
                         }
@@ -185,6 +196,9 @@ class ParsingFile {
         str.contains(FileConfig.TypeData.SOILTMP2.type) -> FileConfig.TypeData.SOILTMP2
         str.contains(FileConfig.TypeData.WDIR.type)     -> FileConfig.TypeData.WDIR
         str.contains(FileConfig.TypeData.HUM.type)      -> FileConfig.TypeData.HUM
+        getTypeFile() == FileConfig.FileName.OSADKI
+                && str.contains(FileConfig.TypeData.OSADKI.type)
+                                                        -> FileConfig.TypeData.OSADKI
         else                                            -> null
     }
 
@@ -202,6 +216,7 @@ class ParsingFile {
         FileConfig.TypeData.SOILTMP2    -> DBConfig.Companion.Table.SOILTMP2
         FileConfig.TypeData.WDIR        -> DBConfig.Companion.Table.WDIR
         FileConfig.TypeData.WIND        -> DBConfig.Companion.Table.WIND
+        FileConfig.TypeData.OSADKI      -> DBConfig.Companion.Table.OSADKI
         else                            -> null
     }
 }

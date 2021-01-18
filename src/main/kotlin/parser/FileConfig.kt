@@ -20,10 +20,12 @@ class FileConfig {
             TypeData.SOILTMP3   -> true
             TypeData.WIND       -> true
             TypeData.WDIR       -> true
+            TypeData.OSADKI     -> true
             TypeData.ALL        -> true
             else                -> false
         }
     }
+
     /**
      * Содержит данные о существующих файлах
      *
@@ -99,6 +101,13 @@ class FileConfig {
          *
          */
         HUM("RH 2 m above"),
+
+        /**
+         * Осадки
+         * начало строки данных
+         *
+         */
+        OSADKI("APCP surface"),
 
         /**
          * Начало каждого нового разделения данных

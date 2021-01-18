@@ -72,7 +72,13 @@ class DBConfig {
              * soil temperature 1 - 2 m
              *
              */
-            SOILTMP3
+            SOILTMP3,
+
+            /**
+             * soil temperature 1 - 2 m
+             *
+             */
+            OSADKI
         }
 
         /**
@@ -94,6 +100,7 @@ class DBConfig {
                 Table.SOILTMP1  -> "soiltemp1"
                 Table.SOILTMP2  -> "soiltemp2"
                 Table.SOILTMP3  -> "soiltemp3"
+                Table.OSADKI    -> "osadki"
             })
             put("lat", lat)
             put("lng", lng)
