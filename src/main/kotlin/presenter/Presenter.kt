@@ -72,18 +72,16 @@ class Presenter {
     fun listParsing(list: List<String>) {
         println("Скачивание файлов на локальную машину и парсинг с последующей отправкой на сервер данных\n")
         list.forEachIndexed { index, it ->
-            //if (it.contains("osadki")) {
-                thread(start = true) {
-                    semaphore.acquire()
-                    println("Скачивание файла №${index + 1} $it")
-                    ftp.download(it)
-                    println("Парсинг файла №${index + 1} $it и отправка данных на сервер")
-                    ParsingFile.getInstance("${ftp.DOWNLOAD_DIRECTORY}$it").parser()
-                    println("Удаление файла №${index + 1} $it с локальной машины")
-                    File("${currentDir()}/LAST/$it").delete()
-                    semaphore.release()
-                }
-            //}
+            thread(start = true) {
+                semaphore.acquire()
+                println("Скачивание файла №${index + 1} $it")
+                ftp.download(it)
+                println("Парсинг файла №${index + 1} $it и отправка данных на сервер")
+                ParsingFile.getInstance("${ftp.DOWNLOAD_DIRECTORY}$it").parser()
+                println("Удаление файла №${index + 1} $it с локальной машины")
+                File("${currentDir()}/LAST/$it").delete()
+                semaphore.release()
+            }
         }
     }
 }

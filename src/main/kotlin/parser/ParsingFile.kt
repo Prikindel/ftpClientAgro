@@ -71,6 +71,8 @@ class ParsingFile {
             val minLng = "25.00000"
             val maxLng = "71.00000"
 
+            val typesPars = mutableListOf<FileConfig.TypeData>()
+
             val fileOut = File("${currentDir()}/FILES/${file.name}")
             fileOut.createNewFile()
             fileOut.printWriter().use { out ->
@@ -148,6 +150,10 @@ class ParsingFile {
                 if (!flagParsing) {
                     if (typeData == FileConfig.TypeData.ALL) {
                         typeParsingData = parserStringByType(it)
+                        typeParsingData?.let {
+                            if (typesPars.contains(it)) typeParsingData = null
+                            else typesPars.add(it)
+                        }
                         if (typeParsingData != null) flagParsing = true
                     } else {
                         if (typeData != FileConfig.TypeData.OSADKI && it.contains(typeData.type)) {
@@ -194,10 +200,14 @@ class ParsingFile {
         str.contains(FileConfig.TypeData.SOILTMP.type)  -> FileConfig.TypeData.SOILTMP
         str.contains(FileConfig.TypeData.SOILTMP1.type) -> FileConfig.TypeData.SOILTMP1
         str.contains(FileConfig.TypeData.SOILTMP2.type) -> FileConfig.TypeData.SOILTMP2
+        str.contains(FileConfig.TypeData.SOILHUM.type)  -> FileConfig.TypeData.SOILHUM
+        str.contains(FileConfig.TypeData.SOILHUM1.type) -> FileConfig.TypeData.SOILHUM1
+        str.contains(FileConfig.TypeData.SOILHUM2.type) -> FileConfig.TypeData.SOILHUM2
         str.contains(FileConfig.TypeData.WDIR.type)     -> FileConfig.TypeData.WDIR
         str.contains(FileConfig.TypeData.HUM.type)      -> FileConfig.TypeData.HUM
-        getTypeFile() == FileConfig.FileName.OSADKI
+        getTypeFile() == FileConfig.FileName.GRIB
                 && str.contains(FileConfig.TypeData.OSADKI.type)
+                && str.contains(FileConfig.TypeData.OSADKIEND.type)
                                                         -> FileConfig.TypeData.OSADKI
         else                                            -> null
     }
@@ -214,6 +224,9 @@ class ParsingFile {
         FileConfig.TypeData.SOILTMP     -> DBConfig.Companion.Table.SOILTMP
         FileConfig.TypeData.SOILTMP1    -> DBConfig.Companion.Table.SOILTMP1
         FileConfig.TypeData.SOILTMP2    -> DBConfig.Companion.Table.SOILTMP2
+        FileConfig.TypeData.SOILHUM     -> DBConfig.Companion.Table.SOILHUM
+        FileConfig.TypeData.SOILHUM1    -> DBConfig.Companion.Table.SOILHUM1
+        FileConfig.TypeData.SOILHUM2    -> DBConfig.Companion.Table.SOILHUM2
         FileConfig.TypeData.WDIR        -> DBConfig.Companion.Table.WDIR
         FileConfig.TypeData.WIND        -> DBConfig.Companion.Table.WIND
         FileConfig.TypeData.OSADKI      -> DBConfig.Companion.Table.OSADKI

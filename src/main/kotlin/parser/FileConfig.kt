@@ -17,7 +17,9 @@ class FileConfig {
             TypeData.SOILTMP    -> true
             TypeData.SOILTMP1   -> true
             TypeData.SOILTMP2   -> true
-            TypeData.SOILTMP3   -> true
+            TypeData.SOILHUM    -> true
+            TypeData.SOILHUM1   -> true
+            TypeData.SOILHUM2   -> true
             TypeData.WIND       -> true
             TypeData.WDIR       -> true
             TypeData.OSADKI     -> true
@@ -91,10 +93,22 @@ class FileConfig {
         SOILTMP2("TSOIL 0.4-1 m"),
 
         /**
-         * Температура почвы на глубине 1-2 м
+         * Влажность почвы на глубине 0-0.1 м
          *
          */
-        SOILTMP3("TSOIL 1-2 m"),
+        SOILHUM("SOILW 0-0.1 m"),
+
+        /**
+         * Влажность почвы на глубине 0.1-0.4 м
+         *
+         */
+        SOILHUM1("SOILW 0.1-0.4 m"),
+
+        /**
+         * Влажность почвы на глубине 0.4-1 м
+         *
+         */
+        SOILHUM2("SOILW 0.4-1 m"),
 
         /**
          * Влажность воздуха
@@ -108,6 +122,13 @@ class FileConfig {
          *
          */
         OSADKI("APCP surface"),
+
+        /**
+         * Осадки
+         * Конец строки данных
+         *
+         */
+        OSADKIEND("0-"),
 
         /**
          * Начало каждого нового разделения данных

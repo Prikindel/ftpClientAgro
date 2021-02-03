@@ -69,13 +69,25 @@ class DBConfig {
             SOILTMP2,
 
             /**
-             * soil temperature 1 - 2 m
+             * soil humidity 0 - 0.1 m
              *
              */
-            SOILTMP3,
+            SOILHUM,
 
             /**
-             * soil temperature 1 - 2 m
+             * soil humidity 0.1 - 0.4 m
+             *
+             */
+            SOILHUM1,
+
+            /**
+             * soil humidity 0.4 - 1 m
+             *
+             */
+            SOILHUM2,
+
+            /**
+             * osadki
              *
              */
             OSADKI
@@ -99,7 +111,9 @@ class DBConfig {
                 Table.SOILTMP   -> "soiltemp"
                 Table.SOILTMP1  -> "soiltemp1"
                 Table.SOILTMP2  -> "soiltemp2"
-                Table.SOILTMP3  -> "soiltemp3"
+                Table.SOILHUM   -> "soilhum"
+                Table.SOILHUM1  -> "soilhum1"
+                Table.SOILHUM2  -> "soilhum2"
                 Table.OSADKI    -> "osadki"
             })
             put("lat", lat)
