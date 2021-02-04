@@ -121,14 +121,14 @@ class FileConfig {
          * начало строки данных
          *
          */
-        OSADKI("APCP surface"),
+        OSADKI("PRATE surface"),
 
         /**
          * Осадки
          * Конец строки данных
          *
          */
-        OSADKIEND("0-"),
+        OSADKIEND("hour fcst"),
 
         /**
          * Начало каждого нового разделения данных
