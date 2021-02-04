@@ -4,7 +4,7 @@
 Файлы содержат:<br>
 - Строка с информацией о типе нижележащих данных
     - Строки с координатами и данными в ней
-![Файл с данными](https://github.com/Prikindel/images/blob/main/gribrefcfobos.PNG)
+![Файл с данными](https://github.com/Prikindel/images/blob/main/agro/gribrefcfobos.PNG)
 <br>
 Необходимые типы данных находятся в файле [/parser/FileConfig.kt](https://github.com/Prikindel/ftpClientAgro/blob/master/src/main/kotlin/parser/FileConfig.kt)
 <br>
