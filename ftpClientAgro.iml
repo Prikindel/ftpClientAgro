@@ -14,5 +14,15 @@
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="com.zaxxer:HikariCP:3.4.5" level="project" />
     <orderEntry type="library" exported="" name="libs" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/gson-2.8.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="gson-2.8.7" level="project" />
   </component>
 </module>

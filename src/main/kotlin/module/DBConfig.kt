@@ -17,6 +17,13 @@ class DBConfig {
         enum class DBParams(val value: String) {
             HOST("localhost"),
             DATABASE("agro"),
+            USER("root"),
+            PASSWORD("Nikitos13")
+        }
+
+        enum class DBParamsOld(val value: String) {
+            HOST("localhost"),
+            DATABASE("agro"),
             USER("prike"),
             PASSWORD("FktrcR888")
         }

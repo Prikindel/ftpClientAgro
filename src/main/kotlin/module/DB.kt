@@ -34,6 +34,12 @@ class DB {
             }
         }
 
+        fun getMiddleRegionsCoordinates(): List<RegionCoordinates> = with(DB.getInstance()) {
+            val list = getMiddleCoordinatesRegions()
+            disconnect()
+            list
+        }
+
         fun getSqlAddCD(params: Map<String, String>) = "CALL addCD(" +
                 "${params["lat"]}, " +
                 "${params["lng"]}, " +
@@ -71,6 +77,25 @@ class DB {
         } finally {
 
         }
+    }
+
+    fun getMiddleCoordinatesRegions(): List<RegionCoordinates> {
+        val listRegions = mutableListOf<RegionCoordinates>()
+        try {
+            val sql = "SELECT middle FROM regions;"
+            val rs = stmt.executeQuery(sql)
+            while (rs.next()) {
+                val valueList = rs.getString(1)
+                        .replace(" ", "")
+                        .split(',')
+                listRegions.add(
+                        RegionCoordinates(valueList[0], valueList[1])
+                )
+            }
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        }
+        return listRegions
     }
 
     /**
@@ -140,6 +165,7 @@ class DB {
                 println(line)
             }
             input.close()
+            println(file)
             File(file).delete()
         } catch (err: Exception) {
             err.printStackTrace()
