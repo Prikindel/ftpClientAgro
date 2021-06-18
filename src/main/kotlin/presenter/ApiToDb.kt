@@ -28,6 +28,8 @@ class ApiToDb {
      */
     private var semaphore = Semaphore(flowSize)
 
+    private val listThread = mutableListOf<Thread>()
+
     companion object {
         /**
          * Инициализация объекта Presenter с переданными данными
@@ -68,17 +70,19 @@ class ApiToDb {
         println("Получение данных для координат и парсинг с последующей отправкой на сервер данных\n")
         list.forEachIndexed { index, it ->
             //if (index == 1)
-            thread(start = true) {
-                semaphore.acquire()
-                println("Получение данных для №${index + 1} $it")
-                val response = openWeather.callUrl(it.lat, it.lon)
-                println("Парсинг данных №${index + 1} $it и отправка на сервер")
-                ParserAPI().parser(response)
-                println("Успешно загруженны данные для №${index + 1} $it")
-                println()
-                semaphore.release()
-            }
-
+            listThread.add(
+                thread(start = true) {
+                    semaphore.acquire()
+                    println("Получение данных для №${index + 1} $it")
+                    val response = openWeather.callUrl(it.lat, it.lon)
+                    println("Парсинг данных №${index + 1} $it и отправка на сервер")
+                    ParserAPI().parser(response)
+                    println("Успешно загруженны данные для №${index + 1} $it")
+                    println()
+                    semaphore.release()
+                }
+            )
         }
+        listThread.forEach { it.join() }
     }
 }

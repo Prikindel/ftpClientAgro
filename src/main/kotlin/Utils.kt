@@ -1,5 +1,8 @@
+import log.Log
 import module.RegionCoordinates
+import presenter.ApiToDb
 import java.io.File
+import java.util.*
 
 /**
  * Возвращает путь к запускаемому проекту
@@ -94,3 +97,20 @@ fun String.getSymbolInt() = substringBefore('.').toInt()
 
 fun <K, V> Map<K, V>.toLog() =
         toString().replace("=", " ")
+
+
+
+fun timerRun(flowInt: Int) {
+    Timer(false).scheduleAtFixedRate(object : TimerTask() {
+        override fun run() {
+            presenterRun(flowInt)
+        }
+    }, 0, 24 * 60 * 60 * 1000)
+}
+
+fun presenterRun(flowInt: Int) {
+    val presenter = ApiToDb.getInstance(flowInt)
+    presenter.listParsing(presenter.getList())
+
+    Log.d("Все данные загружены.")
+}

@@ -1,32 +1,9 @@
-fun main(args: Array<String>) {
-    println("Вас приветствует программа парсинга данных погоды")
-    println()
-    var flowInt = 1
-    if (args.isNotEmpty() && args[0].all {it.isDigit()}) {
-        flowInt = args[0].toInt()
-        if (flowInt <= 0) {
-            flowInt = 1
-        }
-    } else {
-        while (true) {
-            print("Введите количество желаемых одновременно работающих потоков: ")
-            val flowSize = readLine()
-            if (flowSize.isNullOrEmpty()) {
-                println("ERROR. Необходимо ввести количество потоков")
-            } else if (flowSize.all { it.isDigit() }) {
-                flowInt = flowSize.toInt()
-                if (flowInt <= 0) {
-                    flowInt = 1
-                }
-                break
-            } else {
-                println("ERROR. Введите число")
-            }
-        }
-    }
+import log.Log
 
-    presenterRun(flowInt)
-    //timerRun(flowInt)
+fun main(args: Array<String>) {
+    val flowInt = startMain(args)
+
+    timerRun(flowInt)
 
     /*while (true) {
         println("Выбирите: \n" +
@@ -43,7 +20,5 @@ fun main(args: Array<String>) {
         break
     }*/
 
-    println("***************************************************")
-    println("Благодарим за использование ftpClientAgro")
-    println("***************************************************")
+    endMain()
 }
