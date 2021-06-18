@@ -1,7 +1,11 @@
 package presenter
 
 import ftp.FTP
+import log.Log
+import log.LogType
+import log.setMessage
 import module.DB
+import module.Region
 import module.RegionCoordinates
 import openweather.OpenWeather
 import parser.ParserAPI
@@ -48,17 +52,26 @@ class ApiToDb {
      *
      * @return список координат
      */
-    fun getList(): List<RegionCoordinates> {
-        println("Получение списка координат из БД...")
-        var list = listOf<RegionCoordinates>()
+    fun getList(): List<Region> {
+        println("Получение списка координат из БД...\n")
+        var list = listOf<Region>()
         thread(start = true) {
             list = DB.getMiddleRegionsCoordinates()
         }.join()
-        println("Получен список регионов: \n ${list.size} регионов \n")
+
+        var countCoordinates = 0
+        list.forEach {
+            countCoordinates += it.closeCoordinates.size
+        }
+
+        Log.i(
+            LogType.Regions(
+                count = list.size,
+                regions = list,
+                message = "$countCoordinates координат найдено"
+            ).log
+        )
         return list
-                .flatMap {
-                    it.toListCloseCoordinates()
-                }
     }
 
     /**
@@ -66,22 +79,31 @@ class ApiToDb {
      *
      * @param list список координат для парсинга
      */
-    fun listParsing(list: List<RegionCoordinates>) {
-        println("Получение данных для координат и парсинг с последующей отправкой на сервер данных\n")
-        list.forEachIndexed { index, it ->
-            //if (index == 1)
-            listThread.add(
-                thread(start = true) {
-                    semaphore.acquire()
-                    println("Получение данных для №${index + 1} $it")
-                    val response = openWeather.callUrl(it.lat, it.lon)
-                    println("Парсинг данных №${index + 1} $it и отправка на сервер")
-                    ParserAPI().parser(response)
-                    println("Успешно загруженны данные для №${index + 1} $it")
-                    println()
-                    semaphore.release()
-                }
-            )
+    fun listParsing(list: List<Region>) {
+        Log.d("Получение данных для координат и парсинг с последующей отправкой на сервер данных\n")
+        var countCoordinates = 0
+        list.forEachIndexed { indexRegion, region ->
+            region.closeCoordinates.forEachIndexed { indexCoordinate, coordinate ->
+//                if (indexCoordinate == 1)
+                listThread.add(
+                    thread(start = true) {
+                        semaphore.acquire()
+                        countCoordinates++
+                        val logType = LogType.InfoRegionGetData(
+                            numberInfo = countCoordinates,
+                            region = region,
+                            coordinatesThis = coordinate
+                        )
+                        Log.i("***************************************************")
+                        Log.i(logType.setMessage("получение данных из источника").log)
+                        val response = openWeather.callUrl(coordinate.lat, coordinate.lon)
+                        ParserAPI().parser(response)
+                        Log.i(logType.setMessage("данные успешно загружены" +
+                                "\n***************************************************").log)
+                        semaphore.release()
+                    }
+                )
+            }
         }
         listThread.forEach { it.join() }
     }

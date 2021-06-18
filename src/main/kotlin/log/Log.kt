@@ -2,6 +2,7 @@ package log
 
 import currentDir
 import java.io.File
+import java.io.FileOutputStream
 
 object Log {
     private val filename = "log"
@@ -21,6 +22,9 @@ object Log {
         if (toFile) printToFile(message)
     }
 
+    fun p(message: String) =
+        printColor(ANSI_PURPLE, message)
+
     fun e(message: String) =
         printColor(ANSI_RED, message)
 
@@ -36,6 +40,11 @@ object Log {
     fun printToFile(message: String) {
         val file = File(currentDir(), filename)
         file.createNewFile()
-        file.writeText(message)
+        FileOutputStream(file, true)
+            .bufferedWriter()
+            .use {
+                it.newLine()
+                it.write(message)
+            }
     }
 }

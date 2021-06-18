@@ -1,6 +1,7 @@
 package openweather
 
 import com.google.gson.Gson
+import log.Log
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -14,7 +15,7 @@ class OpenWeather {
             requestMethod = "GET"
 
             if (true) {
-                println("\nSent 'GET' request to URL : $url; \nResponse Code : $responseCode")
+                Log.p("\nSent 'GET' request to URL : $url; \nResponse Code : $responseCode\n")
             } else {
                 responseCode
             }

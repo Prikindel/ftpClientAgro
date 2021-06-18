@@ -2,6 +2,7 @@ import log.Log
 import module.RegionCoordinates
 import presenter.ApiToDb
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -23,7 +24,7 @@ fun currentDir(): String {
 fun currentDir1() = System.getProperty("user.dir")!!
 
 fun currentDir(folder: String): String {
-    val path = "${currentDir()}/$folder/"
+    val path = "${currentDir()}$folder/"
     val folder = File(path)
     if (!folder.exists()) {
         folder.mkdir()
@@ -95,11 +96,12 @@ fun String.getTwoSymbolFloat() = with(this.substringAfter('.')) {
 
 fun String.getSymbolInt() = substringBefore('.').toInt()
 
-fun <K, V> Map<K, V>.toLog() =
-        toString().replace("=", " ")
 
 
 
+
+
+// MAIN
 fun timerRun(flowInt: Int) {
     Timer(false).scheduleAtFixedRate(object : TimerTask() {
         override fun run() {
@@ -109,8 +111,15 @@ fun timerRun(flowInt: Int) {
 }
 
 fun presenterRun(flowInt: Int) {
+    Log.p("Новый запрос на получение данных " +
+        SimpleDateFormat("YYYY-MM-dd HH:00:00")
+        .format(
+            Date()
+        ) + "\n"
+    )
+
     val presenter = ApiToDb.getInstance(flowInt)
     presenter.listParsing(presenter.getList())
 
-    Log.d("Все данные загружены.")
+    Log.d("Все данные загружены.\n")
 }

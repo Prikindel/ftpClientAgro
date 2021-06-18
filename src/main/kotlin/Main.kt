@@ -12,7 +12,9 @@ fun main(args: Array<String>) {
 }
 
 fun startMain(args: Array<String>): Int {
-    Log.y("Вас приветствует программа парсинга данных погоды\n")
+    Log.y("\n***************************************************")
+    Log.y("Вас приветствует программа парсинга данных погоды")
+    Log.y("***************************************************\n")
     var flowInt = 1
     if (args.isNotEmpty() && args[0].all {it.isDigit()}) {
         flowInt = args[0].toInt()
@@ -42,7 +44,7 @@ fun startMain(args: Array<String>): Int {
 fun endMain() {
     Log.y("***************************************************")
     Log.y("Благодарим за использование ftpClientAgro")
-    Log.y("***************************************************")
+    Log.y("***************************************************\n")
 }
 
 //fun main1(args: Array<String>) {

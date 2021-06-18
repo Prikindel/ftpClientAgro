@@ -34,7 +34,7 @@ class DB {
             }
         }
 
-        fun getMiddleRegionsCoordinates(): List<RegionCoordinates> = with(DB.getInstance()) {
+        fun getMiddleRegionsCoordinates(): List<Region> = with(getInstance()) {
             val list = getMiddleCoordinatesRegions()
             disconnect()
             list
@@ -79,23 +79,33 @@ class DB {
         }
     }
 
-    fun getMiddleCoordinatesRegions(): List<RegionCoordinates> {
-        val listRegions = mutableListOf<RegionCoordinates>()
+    fun getMiddleCoordinatesRegions(): List<Region> {
+        val regions = mutableListOf<Region>()
         try {
-            val sql = "SELECT middle FROM regions;"
+            val sql = "SELECT id, name, middle FROM regions;"
             val rs = stmt.executeQuery(sql)
             while (rs.next()) {
-                val valueList = rs.getString(1)
+                val id = rs.getString(1)
+                val name = rs.getString(2)
+                val coordinateList = rs.getString(3)
                         .replace(" ", "")
                         .split(',')
-                listRegions.add(
-                        RegionCoordinates(valueList[0], valueList[1])
+
+                regions.add(
+                    Region(
+                        id,
+                        name,
+                        RegionCoordinates(
+                            coordinateList[0],
+                            coordinateList[1]
+                        )
+                    )
                 )
             }
         } catch (e: SQLException) {
             e.printStackTrace()
         }
-        return listRegions
+        return regions
     }
 
     /**
@@ -165,7 +175,6 @@ class DB {
                 println(line)
             }
             input.close()
-            println(file)
             File(file).delete()
         } catch (err: Exception) {
             err.printStackTrace()
