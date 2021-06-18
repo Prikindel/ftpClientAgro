@@ -6,7 +6,7 @@ import java.io.File
  *
  * @return
  */
-fun currentDir1(): String {
+fun currentDir(): String {
     val path = System.getProperty("java.class.path")
     val FileSeparator = System.getProperty("file.separator")
     return path.substring(0, path.lastIndexOf(FileSeparator) + 1)
@@ -17,10 +17,10 @@ fun currentDir1(): String {
  *
  * @return
  */
-fun currentDir() = System.getProperty("user.dir")!!
+fun currentDir1() = System.getProperty("user.dir")!!
 
 fun currentDir(folder: String): String {
-    val path = "${currentDir1()}/$folder/"
+    val path = "${currentDir()}/$folder/"
     val folder = File(path)
     if (!folder.exists()) {
         folder.mkdir()
@@ -91,3 +91,6 @@ fun String.getTwoSymbolFloat() = with(this.substringAfter('.')) {
 }.toInt()
 
 fun String.getSymbolInt() = substringBefore('.').toInt()
+
+fun <K, V> Map<K, V>.toLog() =
+        toString().replace("=", " ")
